@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+  Edit Profile
+{% endblock %}
+
+{% block content %}
+  <h3>Edite {{request.user}} Profile</h3>
+  <hr>
+  <form method="post" class="container col-md-4" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Edit" class="btn btn-primary">
+  </form>
+{% endblock%}
+

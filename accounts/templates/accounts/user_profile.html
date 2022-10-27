@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+  {{user.username}} profile
+{% endblock %}
+
+{% block content %}
+    <h2 class="text-center">
+    {{user.username}} Profile
+    </h2>
+    <div class="text text-center">
+        {% if request.user != user and not is_following %}
+            <a href="{% url 'accounts:user_follow' user.id %}" class="btn btn-info">Follow</a>
+        {% elif is_following%}
+            <a href="{% url 'accounts:user_unfollow' user.id %}" class="btn btn-warning">Unfollow</a>
+        {% endif %}
+        </div>
+    <a href="{% url 'accounts:user_profile_edit' user.id %}" class="btn btn-info">Edit Profile</a>
+    <hr>
+    <div class="container text-center">
+           {% for post in posts %}
+                 <div class="row align-items-start">
+                    <div class="col card">
+                        <a href="{{ post.detail_absolute_url }}" class="card-body">
+                            {{post.caption | truncatewords:6}}
+                        </a>
+                    </div>
+                 </div>
+           {% endfor %}
+    </div>
+{% endblock %}

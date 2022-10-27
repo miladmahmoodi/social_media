@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+    Login
+{% endblock %}
+
+{% block content %}
+    <form method="POST" class="container col-md-4" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Login" class="btn btn-primary">
+        <a href="{% url 'accounts:password_reset' %}">Reset Password</a>
+    </form>
+{% endblock %}

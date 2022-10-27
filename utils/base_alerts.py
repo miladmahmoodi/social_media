@@ -1,0 +1,21 @@
+
+
+class BaseAlert:
+    success_registration = 'You Registered Successfully'
+    username_already_exist = 'Username Already Exist'
+    email_already_exist = 'Email Already Exist'
+    password_must_math = 'Passwords Must Math'
+    logged_in = 'Logged In Successfully'
+    wrong_username_password = 'UserName or Password is Wrong'
+    logged_out = 'You Logged out successfully'
+    success_post_create = 'post created successfully'
+    success_delete_post = 'post deleted successfully'
+    error_delete_post = 'You can`t delete this post'
+    error_update_post = 'You can`t update this post'
+    success_post_update = 'post updated successfully'
+    success_follow = 'You followed this user'
+    already_follow = 'You are already following this user'
+    success_delete_relation = 'You unfollowed this user'
+    wrong_delete_relation = 'You are not following this user'
+    success_create_comment = 'Your comment created successfully'
+    success_edite_profile = 'Profile successfully updated'

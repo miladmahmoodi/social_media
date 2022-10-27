@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+    {{post.slug}}
+{% endblock %}
+
+
+{% block content %}
+    <div class="text-center">
+        <h1>
+            <a href="{% url 'accounts:user_profile' post.user.id %}" style="color: black">{{post.user}}</a>
+        </h1>
+    </div>
+<hr>
+    <div class="container text-center">
+<!--         <div class="row align-items-start">-->
+<!--            <div class="col">-->
+<!--                {{post.slug}}-->
+<!--            </div>-->
+<!--         </div>-->
+<!--        <hr>-->
+        <div class="row align-items-start">
+            <div class="col">
+                {{post.caption}}
+            </div>
+         </div>
+        <hr>
+        <div style="text-align:left">
+            <b>
+                {{post.likes_count}} Likes
+            </b>
+            <small class="text-muted">
+                at {{post.updated_at | date:'Y-M'}}
+            </small>
+        </div>
+        <hr>
+        {% if is_like %}
+            <a href="{{post.like_absolute_url}}"><button class="btn btn-warning col-md-2">DisLike</button></a>
+        {% else %}
+            <a href="{{post.like_absolute_url}}"><button class="btn btn-success col-md-2">Like</button></a>
+        {% endif %}
+        {% if post.user == request.user %}
+            <hr>
+                <a href="{{post.delete_absolute_url}}"><button class="btn btn-danger">Delete</button></a>
+            <a href="{{post.update_absolute_url}}" class="m-4"><button class="btn btn-primary">Update</button></a>
+        {% endif %}
+    </div>
+<hr>
+<div class="container col-md-4">
+    {% if request.user.is_authenticated %}
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="Create" class="btn btn-info">
+        </form>
+    <hr>
+    {% endif %}
+
+    <p>Comments:</p>
+    {% for comment in comments %}
+        {% if not comment.is_reply %}
+            <div class="card bg-dark text-white">
+                <p class="card-header">{{comment.user}} at {{comment.created_at|timesince}} ago</p>
+                <p class="card-body mx-3 bg-light text-black">{{comment.body}}</p>
+
+                {% with replies=comment.comments.all %}
+                    {% for reply in replies %}
+                        <div class="card bg-dark text-white mx-4">
+                            <p class="card-header">{{reply.user}} at {{reply.created_at|timesince}} ago</p>
+                            <p class="card-body mx-3 bg-light text-black">{{reply.body}}</p>
+                        </div>
+                    {% endfor %}
+                {% endwith %}
+
+                {% if request.user.is_authenticated %}
+                    <form action="{% url 'posts:reply_comment' post.id comment.id %}" method="post" class="mx-3 mb-3">
+                        {% csrf_token %}
+                        {{ reply_form.as_p }}
+                        <input type="submit" value="Send Reply" class="btn btn-info">
+                    </form>
+                {% endif %}
+            </div>
+        {% endif %}
+        <br>
+    {% empty %}
+        <div class="card bg-dark text-white">
+            <p class="card-body">No Comments yet!</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+
+

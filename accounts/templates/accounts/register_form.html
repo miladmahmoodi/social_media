@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+    Register
+{% endblock %}
+
+{% block content %}
+    <form method="POST" class="container col-md-4" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Register" class="btn btn-primary">
+    </form>
+{% endblock %}
